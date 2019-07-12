@@ -24,4 +24,22 @@
     <string name="seller_location">Seller Location</string>
     <string name="logout">Logout</string>
     <string name="email">Email</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="users_count">40 Users</string>
+    <string name="users_happy_count">30 Happy Users</string>
+    <string name="products_sold_count">20 Products Sold</string>
+    <string name="users">Users</string>
+    <string name="happy_users">Happy Users</string>
+    <string name="products_sold">Products Sold</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_type">Product Type</string>
+    <string name="product_price">$xx</string>
+    <string name="product_discount">- $xx</string>
+    <string name="seller_name">Seller Name</string>
+    <string name="seller_address">Seller Address</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="dashboard">Dashboard</string>
 </resources>

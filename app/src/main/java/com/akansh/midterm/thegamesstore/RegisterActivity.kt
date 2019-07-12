@@ -3,8 +3,10 @@ package com.akansh.midterm.thegamesstore
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.AppCompatButton
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import io.realm.Realm
@@ -20,6 +22,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var register: AppCompatButton
     private lateinit var login: TextView
     private lateinit var realm: Realm
+    private lateinit var linearLayout: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,7 @@ class RegisterActivity : AppCompatActivity() {
 
         realm = Realm.getDefaultInstance()
         name = findViewById(R.id.name)
+        linearLayout = findViewById(R.id.linearLayout)
         username = findViewById(R.id.username)
         phoneNumber = findViewById(R.id.phoneNumber)
         password = findViewById(R.id.password)
@@ -54,6 +58,7 @@ class RegisterActivity : AppCompatActivity() {
                     } else {
                         addUserToSystem((results.size + 1), name.text.toString(), username.text.toString(), phoneNumber.text.toString().toLong(), password.text.toString())
                         intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                        Snackbar.make(linearLayout, "User was registered successfully..", Snackbar.LENGTH_SHORT).show()
                         startActivity(intent)
 
                         finish()
@@ -73,7 +78,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun addUserToSystem(id: Int, name: String, username: String, phoneNumber: Long, password: String) {
         realm.beginTransaction()
 
-        val newUser = realm.createObject(Users::class.java, 1)
+        val newUser = realm.createObject(Users::class.java, id)
         newUser.setName(name)
         newUser.setEmail(username)
         newUser.setPhone(phoneNumber)
