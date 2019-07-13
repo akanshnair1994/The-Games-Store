@@ -1,6 +1,9 @@
 package com.akansh.midterm.thegamesstore
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
@@ -21,6 +24,7 @@ class MenuDrivenActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     private lateinit var realm: Realm
     private val USERNAME = "username"
     private val USER_BOOL = "userBool"
+    private val LOGOUT = "Logout"
     private lateinit var user: String
     private var userBool: Boolean = false
     private lateinit var constraintLayout: ConstraintLayout
@@ -85,6 +89,14 @@ class MenuDrivenActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 Snackbar.make(constraintLayout, "Work in Progress", Snackbar.LENGTH_SHORT).show()
             }
             R.id.nav_logout -> {
+                if (userBool) {
+                    val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+                    sharedPrefs.edit().remove(USERNAME).apply()
+
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra(LOGOUT, true)
+                    startActivity(intent)
+                }
                 this.finish()
             }
         }

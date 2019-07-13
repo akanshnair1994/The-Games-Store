@@ -16,7 +16,6 @@
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyCEcUlY-p9IcthRXHwYyvupeZUX_fgSoSU"/>
-
         <activity
                 android:name=".MainActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -28,7 +27,8 @@
         </activity>
         <activity
                 android:name=".RegisterActivity"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+                android:windowSoftInputMode="adjustNothing">
         </activity>
         <activity
                 android:name=".MenuDrivenActivity"

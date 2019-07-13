@@ -52,6 +52,7 @@ class ProductsAdapter(private val context: Context, private val productList: Lis
             .with(context)
             .load(product.getProductImagePath())
             .centerCrop()
+            .placeholder(R.drawable.ic_important_devices_black_24dp)
             .into(holder.productImage)
         holder.productName.text = product.getProductName()
         holder.productType.text = product.getProductType()

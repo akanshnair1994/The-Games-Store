@@ -6,12 +6,15 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.AppCompatButton
 import android.widget.TextView
+import android.widget.Toast
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
+import java.lang.Exception
 import java.util.*
 
 class ProductsInfoActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -44,10 +47,14 @@ class ProductsInfoActivity : AppCompatActivity(), OnMapReadyCallback {
         longitude = intent.getDoubleExtra(LONG, 0.0)
         sellerNameString = intent.getStringExtra(SELLER_NAME)
         sellerLocation = intent.getStringExtra(SELLER_LOCATION)
-        address = geocoder.getFromLocation(lat, longitude, 1)
-        sellerName.text = sellerNameString
-        sellerAddress.text = address[0].getAddressLine(0)
-
+        try {
+            address = geocoder.getFromLocation(lat, longitude, 1)
+            sellerName.text = sellerNameString
+            sellerAddress.text = address[0].getAddressLine(0)
+        } catch (ex: Exception) {
+            this.finish()
+            Toast.makeText(this@ProductsInfoActivity, "Some problem occurred. Please try again later", Toast.LENGTH_SHORT).show()
+        }
         okButton.setOnClickListener {
             this.finish()
         }
@@ -58,5 +65,8 @@ class ProductsInfoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val latLng = LatLng(lat, longitude)
         mGoogleMap?.addMarker(MarkerOptions().position(latLng).title(sellerNameString))
+        mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        mGoogleMap?.setMinZoomPreference(5f)
+        mGoogleMap?.setMaxZoomPreference(20f)
     }
 }

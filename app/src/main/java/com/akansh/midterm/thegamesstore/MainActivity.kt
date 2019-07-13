@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var realm: Realm
     private lateinit var sharedPrefs: SharedPreferences
     private val PASSWORD = "Password"
+    private val LOGOUT = "Logout"
+    private var userLoggedOut = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,17 +40,20 @@ class MainActivity : AppCompatActivity() {
         login = findViewById(R.id.login)
         register = findViewById(R.id.register)
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        userLoggedOut = intent.getBooleanExtra(LOGOUT, false)
 
         forgotPassword.setOnClickListener {
             Toast.makeText(this@MainActivity, "Forgot Password is in progress", Toast.LENGTH_SHORT).show()
         }
 
-        if (sharedPrefs.getString(USERNAME, "") != "") {
-            val intent = Intent(this@MainActivity, MenuDrivenActivity::class.java)
-            intent.putExtra(USERNAME, sharedPrefs.getString(USERNAME, ""))
-            intent.putExtra(USER_BOOL, true)
-            startActivity(intent)
-            this.finish()
+        if (!userLoggedOut) {
+            if (sharedPrefs.getString(USERNAME, "") != "") {
+                val intent = Intent(this@MainActivity, MenuDrivenActivity::class.java)
+                intent.putExtra(USERNAME, sharedPrefs.getString(USERNAME, ""))
+                intent.putExtra(USER_BOOL, true)
+                startActivity(intent)
+                this.finish()
+            }
         }
 
         login.setOnClickListener {
@@ -61,15 +66,14 @@ class MainActivity : AppCompatActivity() {
                     for (user: Users in result) {
                         if (user.getEmail() == username.text.toString() && user.getPassword() == password.text.toString()) {
                             val prefEditor = sharedPrefs.edit()
-                            prefEditor.putString(USERNAME, username.text.toString())
+                            prefEditor.putString(USERNAME, user.getName())
                             prefEditor.putString(PASSWORD, password.text.toString())
                             prefEditor.apply()
 
                             val intent = Intent(this@MainActivity, MenuDrivenActivity::class.java)
-                            intent.putExtra(USERNAME, username.text.toString())
+                            intent.putExtra(USERNAME, user.getName())
                             intent.putExtra(USER_BOOL, false)
                             startActivity(intent)
-                            this.finish()
                         } else {
                             incorrectCredentials.visibility = View.VISIBLE
                             incorrectCredentials.text = getString(R.string.invalid_credentials)
